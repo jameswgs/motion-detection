@@ -23,17 +23,22 @@ TIME=10
 
 let INT_DURATION=INT_DURATION-STEP
 
+CUTOFF=600
+
 while [ $TIME -lt $INT_DURATION ]; do
 	let NEXT_TIME=TIME+STEP	
 	TIME0=`echo "$TIME * 0.1" | bc`
 	TIME1=`echo "$NEXT_TIME * 0.1" | bc`
+
 	DIFF=`./compareFrames.sh $VIDEO $TIME0 $TIME1`
 
 	DIFF_ARR=(${DIFF//./ })
 	DIFF_INT=${DIFF_ARR[0]}
 
-	if [ $DIFF_INT -gt 600 ]; then
-		echo "$TIME0 $DIFF"	
+	if [ $DIFF_INT -gt $CUTOFF ]; then
+		MINS=`echo "$TIME0 * 0.01666666666" | bc`
+		printf "\n%f, %0.2f, %s, %s\n" $TIME0 $MINS $DIFF
+		# echo "$TIME0, $MINS, $DIFF"
 	fi
 
 	printf "."
