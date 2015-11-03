@@ -23,7 +23,7 @@ TIME=10
 
 let INT_DURATION=INT_DURATION-STEP
 
-CUTOFF=600
+CUTOFF=800
 
 while [ $TIME -lt $INT_DURATION ]; do
 	let NEXT_TIME=TIME+STEP	
@@ -37,8 +37,8 @@ while [ $TIME -lt $INT_DURATION ]; do
 
 	if [ $DIFF_INT -gt $CUTOFF ]; then
 		MINS=`echo "$TIME0 * 0.01666666666" | bc`
-		printf "\n%f, %0.2f, %s, %s\n" $TIME0 $MINS $DIFF
-		# echo "$TIME0, $MINS, $DIFF"
+		TIME=`./minsToTime.sh $MINS`
+		printf "\n$DIFF_INT, $TIME0, $TIME\n"
 	fi
 
 	printf "."
